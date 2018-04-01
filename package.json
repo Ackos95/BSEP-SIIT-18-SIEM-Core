@@ -1,0 +1,40 @@
+{
+  "name": "siem-core",
+  "version": "0.0.1",
+  "description": "SIEM-Core basic app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index",
+    "start-production": "tsc && node dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ackos95/BSEP-SIIT-18-SIEM-Core.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ackos95/BSEP-SIIT-18-SIEM-Core/issues"
+  },
+  "homepage": "https://github.com/Ackos95/BSEP-SIIT-18-SIEM-Core#readme",
+  "dependencies": {
+    "awilix": "^3.0.6",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "log4js": "^2.5.3",
+    "mongoose": "^5.0.12"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/dotenv": "^4.0.2",
+    "@types/express": "^4.11.1",
+    "@types/mongodb": "^3.0.9",
+    "@types/mongoose": "^5.0.7",
+    "@types/node": "^9.6.1",
+    "nodemon": "^1.17.3",
+    "ts-node": "^5.0.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.1"
+  }
+}
