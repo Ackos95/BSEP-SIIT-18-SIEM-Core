@@ -1,5 +1,5 @@
 import { IContainer } from '../bootstrap/container';
-import { ILogEntryModel } from "../models/log_entry";
+import { ILogEntryModel } from '../models/log_entry';
 
 
 class LogEntryService {
@@ -12,6 +12,15 @@ class LogEntryService {
 
   public getLogEntries = async () =>
     await this.LogEntryModel.find({});
+
+  public getAgentLogEntries = async (agentId: string) =>
+    await this.LogEntryModel.find({ agentId });
+
+  public truncateLogEntries = async () =>
+    await this.LogEntryModel.remove({});
+
+  public truncateAgentLogEntries = async (agentId: string) =>
+    await this.LogEntryModel.remove({ agentId });
 
   public createLogEntries = async (entriesString: string, agentId: string) => {
     const entries = entriesString.trimRight().split(/\r?\n/).map((entry) => ({

@@ -4,8 +4,8 @@ type TDbConfigType = {
 };
 
 const createDbConfig = (): TDbConfigType => ({
-  connectionString: 'mongodb://localhost:27017/bsep-siit-18-siem-core',
-  poolSize: 5,
+  connectionString: process.env.DATABASE_URL,
+  poolSize: parseInt(process.env.POOL_SIZE, 10) || 5,
 });
 
 export {

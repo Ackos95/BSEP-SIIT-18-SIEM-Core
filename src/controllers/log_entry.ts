@@ -1,12 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { LogEntryService } from '../services/log_entry';
+import { IController } from '../bootstrap/controller';
 import { IContainer } from '../bootstrap/container';
 import { ILogger } from '../bootstrap/logger';
 import { AgentAllowedMiddleware } from '../middlewares/agent_allowed';
 import { RawBodyMiddleware } from '../middlewares/raw_body';
+import { LogEntryService } from '../services/log_entry';
 
 
-class LogEntryController {
+class LogEntryController implements IController {
   private AgentAllowedMiddleware: AgentAllowedMiddleware;
   private RawBodyMiddleware: RawBodyMiddleware;
   private LogEntryService: LogEntryService;
@@ -22,7 +23,31 @@ class LogEntryController {
   public getAllLogEntries = (req: Request, res: Response) => {
     this.LogEntryService.getLogEntries()
       .then((data: any) => res.json(data))
-      .catch((err: Error) => res.json({ status: 500, message: 'Internal server error'}) );
+      .catch((err: Error) => res.json({ status: 500, message: 'Internal server error' }));
+  };
+
+  public getAgentLogEntries = (req: Request, res: Response) => {
+    this.LogEntryService.getAgentLogEntries(req.params.agentId)
+      .then((data: any) => res.json(data))
+      .catch((err: Error) => res.json({ status: 500, message: 'Internal server error' }));
+  };
+
+  public truncateLogEntries = (req: Request, res: Response) => {
+    this.LogEntryService.truncateLogEntries()
+      .then(() => {
+        this.logger.info('All logs truncated');
+        return res.json({ status: 500, message: 'Internal server error' });
+      }).catch((err: Error) => res.json({ status: 500, message: 'Internal server error' }));
+  };
+
+  public truncateAgentLogEntries = (req: Request, res: Response) => {
+    this.LogEntryService.truncateAgentLogEntries(req.params.agentId)
+      .then(() => {
+        this.logger.info(`All logs truncated for agent ${req.params.agentId}`)
+      }).catch((err: Error) => {
+        this.logger.error('Error while deleting agent logs', err);
+        res.json({ status: 500, message: 'Internal server error' })
+      });
   };
 
   public addEntries = (req: Request, res: Response) => {
@@ -38,7 +63,10 @@ class LogEntryController {
 
   public connect = (router: Router) => {
     router.get('/entries', this.getAllLogEntries);
+    router.get('/entries/agent/:agentId', this.getAgentLogEntries);
     router.post('/entries', this.RawBodyMiddleware.run, this.AgentAllowedMiddleware.run, this.addEntries);
+    router.delete('/entries', this.truncateLogEntries);
+    router.delete('/entries/agent/:agentId', this.truncateAgentLogEntries)
   };
 }
 
