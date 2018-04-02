@@ -27,7 +27,7 @@ class LogEntryController implements IController {
   };
 
   public getAgentLogEntries = (req: Request, res: Response) => {
-    this.LogEntryService.getAgentLogEntries(req.params.agentId)
+    this.LogEntryService.getAgentLogEntries(req.params.agentName)
       .then((data: any) => res.json(data))
       .catch((err: Error) => res.json({ status: 500, message: 'Internal server error' }));
   };
@@ -41,9 +41,9 @@ class LogEntryController implements IController {
   };
 
   public truncateAgentLogEntries = (req: Request, res: Response) => {
-    this.LogEntryService.truncateAgentLogEntries(req.params.agentId)
+    this.LogEntryService.truncateAgentLogEntries(req.params.agentName)
       .then(() => {
-        this.logger.info(`All logs truncated for agent ${req.params.agentId}`)
+        this.logger.info(`All logs truncated for agent ${req.params.agentName}`)
       }).catch((err: Error) => {
         this.logger.error('Error while deleting agent logs', err);
         res.json({ status: 500, message: 'Internal server error' })
@@ -63,10 +63,10 @@ class LogEntryController implements IController {
 
   public connect = (router: Router) => {
     router.get('/entries', this.getAllLogEntries);
-    router.get('/entries/agent/:agentId', this.getAgentLogEntries);
+    router.get('/entries/agent/:agentName', this.getAgentLogEntries);
     router.post('/entries', this.RawBodyMiddleware.run, this.AgentAllowedMiddleware.run, this.addEntries);
     router.delete('/entries', this.truncateLogEntries);
-    router.delete('/entries/agent/:agentId', this.truncateAgentLogEntries)
+    router.delete('/entries/agent/:agentName', this.truncateAgentLogEntries)
   };
 }
 

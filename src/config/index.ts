@@ -1,6 +1,6 @@
 import { config as loadEnv } from 'dotenv';
 import { createDbConfig, TDbConfigType } from './db';
-import {createAgentsConfig} from "./agents";
+import { createAgentsConfig, TAgentConfigType } from './agents';
 
 
 interface IConfigType {
@@ -8,7 +8,7 @@ interface IConfigType {
     port: number;
   };
   db: TDbConfigType;
-  allowedAgents: string[],
+  allowedAgents: TAgentConfigType,
 }
 
 const createConfig = (): IConfigType => {
@@ -19,7 +19,7 @@ const createConfig = (): IConfigType => {
       port: 3000,
     },
     db: createDbConfig(),
-    ...createAgentsConfig(),
+    allowedAgents: createAgentsConfig(),
   }
 };
 

@@ -12,7 +12,7 @@ class AgentAllowedMiddleware {
 
   public run = (req: Request, res: Response, next: () => any) => {
     const auth = req.get('Authorization');
-    if (!auth || !this.config.allowedAgents.find((allowedAgent: string) => allowedAgent === auth)) {
+    if (!auth || !this.config.allowedAgents.find((allowedAgent: { key: string }) => allowedAgent.key === auth)) {
       res.status(401);
       return res.send('Not authorized');
     }

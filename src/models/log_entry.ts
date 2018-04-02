@@ -26,5 +26,6 @@ const createLogEntryModel = (opts: { container: AwilixContainer, connection: IDa
 
 export {
   ILogEntryModel,
+  ILogEntryModelSchema,
   createLogEntryModel,
 };

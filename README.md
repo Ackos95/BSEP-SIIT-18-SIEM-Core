@@ -26,8 +26,13 @@ through environment, you can set up environment variables manually or (**recomme
 use `.env` file. Copy `.env.example` into `.env` and modify variables
 
 Requred variables:
-- `ALLOWED_AGENTS` - comma separated array of agent api tokens which will be allowed to add new entries  
+- `ALLOWED_AGENTS` - comma separated array of agent api tokens which will be allowed to add new entries. Keys should be random (base64 encoded) strings (recommendation over 32 characters)  
+- `AGENT_NAMES` - coma separated array of agent names (used for public formatting data) - it is connected to `ALLOWED_AGENTS` keys by index in list
+- `DATABASE_URL` - url formatted for connecting to mongodb (`"mongo://localhost:27017/)
 
+
+Optional variables:
+- `POOL_SIZE` - number of pool connections for mongodb (default 5)
 
 ### Start app
 

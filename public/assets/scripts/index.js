@@ -1,5 +1,3 @@
-"use strict";
-
 (function(document, $) {
   const API_URL = 'http://localhost:3000/api/v1/';
   $(document).ready(function() {
@@ -10,7 +8,7 @@
         return '<tr>' +
           '<td scope="row">' + index + '</td>' +
           '<td>' + tableRow.text + '</td>' +
-          '<td>' + tableRow.agentId + '</td>' +
+          '<td>' + tableRow.agent + '</td>' +
           '</tr>';
       }).join('');
     }
